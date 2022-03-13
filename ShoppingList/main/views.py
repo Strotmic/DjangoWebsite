@@ -1,3 +1,4 @@
+from math import prod
 from django.db import connection
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -5,16 +6,23 @@ from matplotlib.pyplot import connect
 import mysql.connector
 from mysql.connector import Error
 import re
-
 from numpy import size
+import socket
+from main.models import winkelProduct
+from django.views.generic import ListView
+
+
 
 mysql.connector.connect(user='root', password='Gusco10.+789',
                               host='127.0.0.1',
                               database='shoppinglist')
 con = connection.cursor()
-products= {}
-  
+products= []
+class productList(ListView):
+    model = winkelProduct
+
 def calculate_aantal():
+    products =[]
     longlist=[]
     z=con.execute("select * from products")
     for i in range(int(z)):
@@ -35,24 +43,32 @@ def calculate_aantal():
             aantal = gewichttotaal/gewichteen
         else:
             aantal = float(gewichttotaal)/float(gewichteen)
-        products= {'naam':naam,'aantal':int(aantal),'gewichteen':float(gewichteen),'gewichttotaal':float(gewichttotaal)}
+        if aantal<2:
+            order = True
+        else:
+            order = False
+        products.append( winkelProduct(id,naam,gewichteen,gewichttotaal,aantal,order))
     return products
 
 def isnodig():
     x = calculate_aantal()
-    if(x<=1):
-        con.execute("update products")
+    for obj in x:
 
-def fruitsap():
-    return True
+        if(obj.aantal<=1):
+            con.execute(f"update products set nodig=true where id={obj.id}")
+
+
 def say_hello(request):
+    isnodig()
     x = calculate_aantal()
     z = x
-    naam = x['naam']
-    aantal = x['aantal']
-    gewichteen = x['gewichteen']
-    gewichttotaal = x['gewichttotaal']
-    return render(request, 'test.html', {'naam':naam, 'aantal':aantal,'gewichteen':gewichteen, 'gewichttotaal':gewichttotaal})
+    for obj in x:
+        naam = obj.name
+        aantal = obj.aantal
+        gewichteen = obj.weight
+        gewichttotaal = obj.total_weight
+        kopen = obj.order
+    return render(request, 'test.html', {'lijst':x})
 
     
 
