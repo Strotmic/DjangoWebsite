@@ -7,3 +7,13 @@ Once we have this data we can send it to our python program who will calculate h
 If he we don't have enough it will automatically add the specific item to a shopping list.
 
 We will have this shopping list and the amount of products we have on a website.
+
+Completed:
+-Add button
+-table with all the products
+-automatic evaluation if we need to buy the product or not
+
+Still to do:
+-delete button
+-update a product
+-the automated shopping list
