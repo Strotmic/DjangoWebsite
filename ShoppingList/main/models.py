@@ -43,10 +43,12 @@ def calculate_aantal():
     products =[]
     longlist=[]
     z=con.execute("select * from products")
-    for i in range(int(z)):
-        i+=1
-        longlist.append(i)
-    for id in longlist:
+    ids=con.execute("select id from products")
+    y=[]
+    for row in con.fetchall():
+        y+=row
+    for id in y:
+
         con.execute(f"select * from products where id = {id}")
         con.execute(f"select naam from products where id={id}")
         naam = con.fetchall()

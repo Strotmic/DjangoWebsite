@@ -3,6 +3,7 @@ from matplotlib.style import context
 from main.models import *
 from django.shortcuts import redirect
 
+
 def tabel(request):
     isnodig()
     x = calculate_aantal()
@@ -31,6 +32,13 @@ def add_product(request):
     return render(request, 'addProduct.html')
 
 def delete_product(request):
-    con.execute(f"DELETE FROM products WHERE id={request.POST['id']}")
+    con.execute(f"DELETE FROM products WHERE id=5")
+    z=5
+    z=con.execute("select id from products")
+    y=[]
+    for row in con.fetchall():
+        y+=row
+        
+
     return redirect('/main/hello/')
 # Create your views here.

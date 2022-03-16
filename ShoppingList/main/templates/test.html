@@ -13,7 +13,7 @@
     <div id="background" class="background container"><nav class=" w-100 navbar navbar-expand-lg navbar-light bg-light bg-white">
         <ul class="container navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item"><a class="nav-link active" href="#">Lijst</a></li>
-            <li class="nav-item"><a class="nav-link active" href="http://127.0.0.1:8000/main/add/">Lijst</a></li>
+            <li class="nav-item"><a class="nav-link active" href="/main/add">Lijst</a></li>
         </ul>
     </nav>
     
@@ -32,8 +32,8 @@
             <td>{{x.aantal}}</td>
             <td>{{x.weight}} kg</td>
             <td>{{x.total_weight}} kg</td>
-            <td>{{x.order}}</td>
-            <td><a class="btn btn-outline-danger" href="http://127.0.0.1:8000/main/delete/">DELETE</a></td>
+            <td>{{x.order}}</td>           
+            <td><a method="POST" value="{{x.id}}"  type="submit" name="DELETE" id="" class="btn btn-outline-danger" href="/main/delete">DELETE</a></td>
             </td>
         </tbody>
         {% endfor %}
