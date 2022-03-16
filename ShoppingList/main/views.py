@@ -24,8 +24,17 @@ def add_product(request):
         weight = request.POST['weight']
         total_weight = float(weight)*float(aantal)
         done =False
-        new_product = winkelProduct(z+1,name,weight,aantal,total_weight,done)
-        con.execute(f"insert into products(id,naam,aantal,gewicht_een,gewicht_totaal,nodig) values({z+1},'{name}',{aantal},{weight},{total_weight},{done})")
+        z=con.execute("select id from products")
+        y=[]
+        for row in con.fetchall():
+            y+=row
+        temp = 0
+        for i in y:
+            if i>temp:
+                temp =i
+        temp +=1
+        new_product = winkelProduct(temp,name,weight,aantal,total_weight,done)
+        con.execute(f"insert into products(id,naam,aantal,gewicht_een,gewicht_totaal,nodig) values({temp},'{name}',{aantal},{weight},{total_weight},{done})")
         tabel(request)
         return redirect('/main/hello/')
         pass
